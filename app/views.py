@@ -451,7 +451,7 @@ def viewfulldetails(request,id):
         for i in c:
             com.append(i.empname)
         l=returnlap.objects.all().filter(id=id)
-        print(l)  
+        print(l)
         for i in l:
             lap.append(i.empname)
         print(com)
