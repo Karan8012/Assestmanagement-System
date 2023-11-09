@@ -456,6 +456,6 @@ def viewfulldetails(request,id):
             lap.append(i.empname)
         print(com)
         print(lap)
-        return render(request, 'viewfullcom.html', {'user': u, 'pos': pos,'com':c})
+        return render(request, 'viewfullcom.html', {'user': u, 'pos': pos})
     except:
         return render(request, 'signrequestpage.html', {'user': None, 'pos': None})
