@@ -1,0 +1,46 @@
+print(empls,cmpls,lpls,otls,gdt,rdt)
+            cm = Com.objects.all().filter(comname=cmpls)
+            lp = Lap.objects.all().filter(lapname=lpls)
+            othacc = Otheracc.objects.all().filter()
+            print(cm,lp,othacc)
+            if cmpls:
+                for i in cm:
+                    systy = cmpls
+                    po = Returncom(empname=empls,comname=i.comname, os=i.os, hdd=i.hdd, ram=i.ram, cpnm=i.cpnm, cpsn=i.cpsn,
+                                   monname=i.monname, mnsn=i.mnsn, prcl=i.prcl, grcname=i.grcname, gcs=i.gcs,
+                                   kyname=i.kyname, msname=i.msname)
+                    po.save()
+            if lpls:
+                for i in lp:
+                    systy = lpls
+                    lo = returnlap(empname=empls,lapname=i.lapname, los=i.los, lhdd=i.lhdd, lram=i.lram, lcm=i.lcm, lsn=i.lsn,
+                                   prcl=i.prcl, grcname=i.grcname, gcs=i.gcs, canv=i.canv)
+                    lo.save()
+            if otls:
+                for i in othacc:
+                    if i.keyboard == otls:
+                        systy = otls
+                        ok = retOtheracc(empname=empls,keyboard=otls)
+                        ok.save()
+                        oi = Otheracc.objects.get(keyboard=otls)
+                        # oi.delete()
+
+                    if i.mouse == otls:
+                        systy = otls
+                        om = retOtheracc(empname=empls,mouse=otls)
+                        om.save()
+                        mi = Otheracc.objects.get(mouse=otls)
+                        # mi.delete()
+                    if i.other == otls:
+                        systy = otls
+                        oo = retOtheracc(empname=empls,other=otls)
+                        oo.save()
+                        io = Otheracc.objects.get(other=otls)
+                        # io.delete()
+            cm.delete()
+            lp.delete()
+            print(empls,systy,otls,gdt,rdt)
+            ass = Assest(empls=empls, systy=systy, otls=otls, gdt=gdt, rdt=rdt)
+            ass.save()
+            sweetify.success(request, title='success', text='Assest Register Successfully', timer=2000)
+            return redirect('index')

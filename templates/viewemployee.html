@@ -1,0 +1,48 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class=" bg-secondary rounded align-items-center justify-content-center mx-0">
+    <div class="col-sm-12">
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">View Employee</h6>
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Date of Birth</th>
+                        <th scope="col">Mobile Number</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Employee ID</th>
+                        <th scope="col">Position</th>
+                        <th scope="col">Joining Date</th>
+                        <th scope="col">Experience</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in e %}
+                    <tbody>
+                        <tr>
+                        <td>{{ i.empname }}</td>
+                        <td>{{ i.empemail }}</td>
+                        <td>{{ i.empdob }}</td>
+                        <td>{{ i.empmbno }}</td>
+                        <td>{{ i.empage }}</td>
+                        <td>{{ i.empid }}</td>
+                        <td>{{ i.emppos }}</td>
+                        <td>{{ i.empjndt }}</td>
+                        <td>{{ i.empexp }}</td>
+                        </tr>
+                    </tbody>
+                    {% empty %}
+                    <tbody>
+                        <tr>
+                        <td>DATA HAS NO LIST</td>
+                        </tr>
+                    </tbody>
+                    {% endfor %}
+            </table>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}
