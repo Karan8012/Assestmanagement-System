@@ -21,9 +21,24 @@
                             <tr><th scope="col">Graphics Card Size Varient</th><td>{{ i.gcs }}</td></tr>
                             <tr><th scope="col">Keyboard Name</th><td>{{ i.kyname }}</td></tr>
                             <tr><th scope="col">Mouse Name</th><td>{{ i.msname }}</td></tr>
+                            {% empty %}
+                                <td>NO DATA</td>
                             {% endfor %}
                         {% elif lap %}
-
+                            {% for i in lap %}
+                            <tr><th scope="col">Laptop Name</th><td>{{ i.lapname }}</td></tr>
+                            <tr><th scope="col">Operating Systeme</th><td>{{ i.los }}</td></tr>
+                            <tr><th scope="col">HDD & SDD Varient</th><td>{{ i.lhdd }}</td></tr>
+                            <tr><th scope="col">RAM Varient</th><td>{{ i.lram }}</td></tr>
+                            <tr><th scope="col">Laptop Color and Model</th><td>{{ i.lcm }}</td></tr>
+                            <tr><th scope="col">Laptop Serial Number</th><td>{{ i.lsn }}</td></tr>
+                            <tr><th scope="col">Processor and Clock Speed</th><td>{{ i.prcl }}</td></tr>
+                            <tr><th scope="col">Graphics Card Name</th><td>{{ i.grcname }}</td></tr>
+                            <tr><th scope="col">Graphics Card Size Varient</th><td>{{ i.gcs }}</td></tr>
+                            <tr><th scope="col">Charger Adepator Name and Voltage</th><td>{{ i.canv }}</td></tr>
+                            {% empty %}
+                                <td>NO DATA</td>
+                            {% endfor %}
                         {% endif %}
                     </tbody>
             </table>

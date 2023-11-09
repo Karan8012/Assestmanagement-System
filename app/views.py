@@ -443,19 +443,16 @@ def viewfulldetails(request,id):
         a = Register.objects.get(email=request.session['email'])
         u = a.user
         pos = a.postion
-        print(id)
-        com=[]
-        lap=[]
         c=Returncom.objects.all().filter(id=id)
-        print(c)
-        for i in c:
-            com.append(i.empname)
-        l=returnlap.objects.all().filter(id=id)
-        print(l)
-        for i in l:
-            lap.append(i.empname)
-        print(com)
-        print(lap)
-        return render(request, 'viewfullcom.html', {'user': u, 'pos': pos})
+        return render(request, 'viewfullcom.html', {'user': u, 'pos': pos,'com':c})
+    except:
+        return render(request, 'signrequestpage.html', {'user': None, 'pos': None})
+def viewfulldetailslap(request,id):
+    try:
+        a = Register.objects.get(email=request.session['email'])
+        u = a.user
+        pos = a.postion
+        c=returnlap.objects.all().filter(id=id)
+        return render(request, 'viewfullcom.html', {'user': u, 'pos': pos,'lap':c})
     except:
         return render(request, 'signrequestpage.html', {'user': None, 'pos': None})
