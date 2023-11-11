@@ -35,8 +35,8 @@ urlpatterns = [
     path('login/addassests',views.addassests,name='addassests'),
     path('login/viewass',views.viewass,name='viewass'),
     path('login/viewass/addass/<int:id>',views.addass,name='addass'),
-    path('login/viewass/addass/viewreass/<int:id>',views.viewreass,name='viewreass'),
-    path('login/viewass/addass/viewreturn/<int:id>',views.viewreturn,name='viewreturn'),
     path('login/viewass/assass/viewreturn/viewfulldetails/<int:id>',views.viewfulldetails,name='viewfulldetails'),
-    path('login/viewass/assass/viewreturn/viewfulldetailslap/<int:id>',views.viewfulldetailslap,name='viewfulldetailslap'),
+    path('login/viewass/returnempother/<int:id>',views.returnempother,name='returnempother'),
+    path('login/addotherass',views.addotherass,name='addotherass'),
+    path('login/viewass/returnprocess/<int:id>',views.returnprocess,name='returnprocess'),
 ]

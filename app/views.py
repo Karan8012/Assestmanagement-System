@@ -258,6 +258,52 @@ def viewemployee(request):
     except:
         return render(request, 'signrequestpage.html', {'user': None, 'pos': None})
 
+def addotherass(request):
+    try:
+        a = Register.objects.get(email=request.session['email'])
+        u = a.user
+        pos = a.postion
+        emp = Employee.objects.all().filter()
+        oth = Otheracc.objects.all().filter()
+        if request.method == 'POST':
+            empls = request.POST.get('empls')
+            otls = request.POST.get('otls')
+            gdt = request.POST.get('gdt')
+            rdt = request.POST.get('rdt')
+            if otls != 'None':
+                for i in oth:
+                    if otls == i.keyboard:
+                        oi = Otheracc.objects.get(keyboard=otls)
+                        oi.delete()
+                        ok=retOtheracc(empname=empls,keyboard=otls)
+                        ok.save()
+                        break
+
+                    if otls == i.mouse:
+                        omm = Otheracc.objects.get(mouse=otls)
+                        omm.delete()
+                        om = retOtheracc(empname=empls, mouse=otls)
+                        om.save()
+                        break
+
+                    if otls == i.other:
+                        ooo = Otheracc.objects.get(other=otls)
+                        print(otls)
+                        ooo.delete()
+                        oo = retOtheracc(empname=empls, other=otls)
+                        oo.save()
+                        break
+            if gdt != rdt:
+                print(empls,otls,gdt,rdt)
+                aast=reass(empls=empls,otls=otls,gdt=gdt,rdt=rdt)
+                aast.save()
+                sweetify.success(request, title='success', text='add Other accessories Successfully', timer=2000)
+                return redirect('index')
+            else:
+                sweetify.error(request, title='error', text=f'Given Date and Return Data Has Same ({gdt}=={rdt})', timer=3000)
+        return render(request, 'addass.html', {'user': u, 'pos': pos,'oth':oth,'emp':emp})
+    except:
+        return render(request, 'signrequestpage.html', {'user': None, 'pos': None})
 
 def addassests(request):
     try:
@@ -272,7 +318,6 @@ def addassests(request):
             empls = request.POST.get('empls')
             cmpls = request.POST.get('cmpls')
             lpls = request.POST.get('lpls')
-            otls = request.POST.get('otls')
             gdt = request.POST.get('gdt')
             rdt = request.POST.get('rdt')
             systy = None
@@ -315,32 +360,9 @@ def addassests(request):
                         lpp=Lap.objects.get(lapname=lpls)
                         lpp.delete()
                         print('lpls')
-            if otls != 'None':
-                for i in oth:
-                    if otls == i.keyboard:
-                        oi = Otheracc.objects.get(keyboard=otls)
-                        oi.delete()
-                        ok=retOtheracc(empname=empls,keyboard=otls)
-                        ok.save()
-                        break
-
-                    if otls == i.mouse:
-                        omm = Otheracc.objects.get(mouse=otls)
-                        omm.delete()
-                        om = retOtheracc(empname=empls, mouse=otls)
-                        om.save()
-                        break
-
-                    if otls == i.other:
-                        ooo = Otheracc.objects.get(other=otls)
-                        print(otls)
-                        ooo.delete()
-                        oo = retOtheracc(empname=empls, other=otls)
-                        oo.save()
-                        break
             if gdt != rdt:
-                print(empls,systy,otls,gdt,rdt)
-                aast=Assest(empls=empls,systy=systy,otls=otls,gdt=gdt,rdt=rdt)
+                print(empls,systy,gdt,rdt)
+                aast=Assest(empls=empls,systy=systy,gdt=gdt,rdt=rdt)
                 aast.save()
                 sweetify.success(request, title='success', text='Assest Register Successfully', timer=2000)
                 return redirect('viewass')
@@ -358,7 +380,8 @@ def viewass(request):
         u = a.user
         pos = a.postion
         ass = Assest.objects.all().filter()
-        return render(request, 'viewass.html', {'user': u, 'pos': pos, 'ass': ass})
+        accem = reass.objects.all().filter()
+        return render(request, 'viewass.html', {'user': u, 'pos': pos, 'ass': ass,'oass':accem})
     except:
         return render(request, 'signrequestpage.html', {'user': None, 'pos': None})
 def addass(request,id):
@@ -367,7 +390,7 @@ def addass(request,id):
         u = a.user
         pos = a.postion
         oth = Otheracc.objects.all().filter()
-        p=Assest.objects.all().filter(id=id)
+        p=Assest.objects.get(id=id)
         if request.method == 'POST':
             empls = request.POST.get('empls')
             otls = request.POST.get('otls')
@@ -402,57 +425,80 @@ def addass(request,id):
                 aast.save()
                 sweetify.success(request, title='success', text='add extra accessories Successfully', timer=2000)
                 return redirect('index')
-        return render(request, 'addass.html', {'user': u, 'pos': pos,'oth':oth,'emp':p})
-    except:
-        return render(request, 'signrequestpage.html', {'user': None, 'pos': None})
-
-def viewreass(request,id):
-    try:
-        a = Register.objects.get(email=request.session['email'])
-        u = a.user
-        pos = a.postion
-        acc=Assest.objects.get(id=id)
-        acna=acc.empls
-        print(acna)
-        accem=reass.objects.all().filter(empls=acna)
-        return render(request,'viewreass.html',{'user': u, 'pos': pos,'ass':accem})
+            else:
+                sweetify.error(request, title='error', text=f'Given Date and Return Data Has Same ({gdt}=={rdt})', timer=3000)
+        return render(request, 'addass.html', {'user': u, 'pos': pos,'oth':oth,'em':p.empls})
     except:
         return render(request, 'signrequestpage.html', {'user': None, 'pos': None})
 
 
-def viewreturn(request,id):
-    try:
-        a = Register.objects.get(email=request.session['email'])
-        u = a.user
-        pos = a.postion
-        acc=Assest.objects.get(id=id)
-        accname=acc.empls
-        print(accname)
-        cm=Returncom.objects.all().filter(empname=accname)
-        print(cm)
-        lp=returnlap.objects.all().filter(empname=accname)
-        print(lp)
-        oth=retOtheracc.objects.all().filter(empname=accname)
-        print(oth)
-        return render(request, 'viewreturn.html', {'user': u, 'pos': pos,'com':cm,'lap':lp,'oth':oth})
-    except:
-        return render(request, 'signrequestpage.html', {'user': None, 'pos': None})
+
 
 def viewfulldetails(request,id):
     try:
         a = Register.objects.get(email=request.session['email'])
         u = a.user
         pos = a.postion
-        c=Returncom.objects.all().filter(id=id)
-        return render(request, 'viewfullcom.html', {'user': u, 'pos': pos,'com':c})
+        print(id)
+        ass=Assest.objects.get(id=id)
+        print(ass.systy,ass.empls)
+        c=Returncom.objects.all().filter(empname=ass.empls)
+        cl=returnlap.objects.all().filter(empname=ass.empls)
+        return render(request, 'viewfullcom.html', {'user': u, 'pos': pos,'com':c,'lap':cl})
     except:
         return render(request, 'signrequestpage.html', {'user': None, 'pos': None})
-def viewfulldetailslap(request,id):
-    try:
-        a = Register.objects.get(email=request.session['email'])
-        u = a.user
-        pos = a.postion
-        c=returnlap.objects.all().filter(id=id)
-        return render(request, 'viewfullcom.html', {'user': u, 'pos': pos,'lap':c})
-    except:
-        return render(request, 'signrequestpage.html', {'user': None, 'pos': None})
+
+
+
+
+def returnempother(request,id):
+    print(id)
+    c=reass.objects.get(id=id)
+    oth = retOtheracc.objects.all().filter(empname=c.empls)
+    print(oth)
+    for i in oth:
+        if i.keyboard:
+            k=Otheracc(keyboard=i.keyboard)
+            k.save()
+            sweetify.success(request, title='Return', text=f'{i.keyboard} Accessories has Return Successfully')
+        elif i.mouse:
+            m=Otheracc(mouse=i.mouse)
+            m.save()
+            sweetify.success(request, title='Return', text=f'{i.mouse} Accessories has Return Successfully')
+        elif i.other:
+            o=Otheracc(other=i.other)
+            o.save()
+            sweetify.success(request, title='Return', text=f'{i.other} Accessories has Return Successfully')
+        ot=retOtheracc.objects.get(empname=c.empls)
+        ot.delete()
+        c.delete()
+    return redirect('index')
+
+def returnprocess(request,id):
+    print(id)
+    c=Assest.objects.get(id=id)
+    com=Returncom.objects.all().filter(comname=c.systy)
+    lap = returnlap.objects.all().filter(lapname=c.systy)
+    if com:
+        for i in com:
+            f = Com(comname=i.comname, os=i.os, hdd=i.hdd, ram=i.ram, cpnm=i.cpnm, cpsn=i.cpsn, monname=i.monname,
+                    mnsn=i.mnsn,
+                    prcl=i.prcl, grcname=i.grcname, gcs=i.gcs, kyname=i.kyname, msname=i.msname)
+            f.save()
+            sweetify.success(request, title='Return', text=f'{i.comname} Computer has Return Successfully')
+        d = Returncom.objects.get(empname=c.empls)
+        d.delete()
+        c.delete()
+        return redirect('index')
+    elif lap:
+        for i in lap:
+            l = Lap(lapname=i.lapname, los=i.los, lhdd=i.lhdd, lram=i.lram, lcm=i.lcm, lsn=i.lsn, prcl=i.prcl,
+                    grcname=i.grcname,
+                    gcs=i.gcs, canv=i.canv)
+            l.save()
+            sweetify.success(request, title='Return', text=f'{i.lapname} laptop has Return Successfully')
+        d = returnlap.objects.get(empname=c.empls)
+        d.delete()
+        c.delete()
+        return redirect('index')
+

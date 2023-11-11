@@ -70,7 +70,6 @@ class Otheracc(models.Model):
 class Assest(models.Model):
     empls=models.CharField(max_length=50)
     systy=models.CharField(max_length=50)
-    otls=models.CharField(max_length=50)
     gdt=models.DateField()
     rdt=models.DateField()
 

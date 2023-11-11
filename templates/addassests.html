@@ -55,25 +55,6 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="inputEmail3" class="col">Other Accessories</label>
-                    <div class="col-sm-9">
-                        <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example" name="otls">
-                                <option selected>Select Other Accessories menu</option>
-                                <option value="None">None</option>
-                                {% for i in oth %}
-                                    {% if i.keyboard %}
-                                        <option value="{{ i.keyboard }}">{{ i.keyboard }}</option>
-                                    {% elif i.mouse %}
-                                        <option value="{{ i.mouse }}">{{ i.mouse }}</option>
-                                    {% elif i.other %}
-                                        <option value="{{ i.other }}">{{ i.other }}</option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
                     <label for="inputEmail3" class="col">Given Date</label>
                     <div class="col-sm-9">
                         <input type="date" class="form-control" placeholder="Given Date and Time" aria-label="Username" aria-describedby="basic-addon1" name="gdt" required style="background-color: #1e2125">
@@ -88,6 +69,13 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
+    <div class="col-sm-12 col-xl-6">
+        <div class="bg-secondary rounded h-100 p-4">
+            <div class="m-n2">
+                <button type="button" class="btn btn-outline-primary m-2"><a href ="{% url 'addotherass' %}" style="color:#FFFFFF;"><i class="fa fa-cogs"></i> Other Accessories </a></button>
+           </div>
+        </div>
+    </div>
     </div>
     </div>
 

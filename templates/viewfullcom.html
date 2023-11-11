@@ -6,7 +6,7 @@
             <h6 class="mb-4">View </h6>
             <table class="table table-borderless">
                     <tbody>
-                        {% if com %}
+                        {% if com  %}
                             {% for i in com %}
                             <tr><th scope="col">Computer Name</th><td>{{ i.comname }}</td></tr>
                             <tr><th scope="col">Operating System</th><td>{{ i.os }}</td></tr>
@@ -26,7 +26,7 @@
                             {% endfor %}
                         {% elif lap %}
                             {% for i in lap %}
-                            <tr><th scope="col">Laptop Name</th><td>{{ i.lapname }}</td></tr>
+                            <tr><th scope="col">Laptop Name</th><td>{{ i.lapname     }}</td></tr>
                             <tr><th scope="col">Operating Systeme</th><td>{{ i.los }}</td></tr>
                             <tr><th scope="col">HDD & SDD Varient</th><td>{{ i.lhdd }}</td></tr>
                             <tr><th scope="col">RAM Varient</th><td>{{ i.lram }}</td></tr>
