@@ -12,12 +12,15 @@
                         {% if i.keyboard %}
                             <th>Keyboard</th>
                             <td>{{ i.keyboard }}</td>
+                            <td><a href="{% url 'deleteother' id=i.id %}" ><button type="button" class="btn btn-sm btn-outline-danger m-0" ><i class="fa fa-times"></i></button></a></td>
                         {% elif i.mouse %}
                             <th>Mouse</th>
                             <td>{{ i.mouse }}</td>
+                            <td><a href="{% url 'deleteother' id=i.id %}" ><button type="button" class="btn btn-sm btn-outline-danger m-0" ><i class="fa fa-times"></i></button></a></td>
                         {% elif i.other %}
                             <th>Other Accessories</th>
                             <td>{{ i.other }}</td>
+                            <td><a href="{% url 'deleteother' id=i.id %}" ><button type="button" class="btn btn-sm btn-outline-danger m-0" ><i class="fa fa-times"></i></button></a></td>
                         {% endif %}
                         </tr>
                         {% empty %}

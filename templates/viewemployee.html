@@ -16,6 +16,7 @@
                         <th scope="col">Position</th>
                         <th scope="col">Joining Date</th>
                         <th scope="col">Experience</th>
+                        <th scope="col">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,6 +32,7 @@
                         <td>{{ i.emppos }}</td>
                         <td>{{ i.empjndt }}</td>
                         <td>{{ i.empexp }}</td>
+                        <td><a href="{% url 'deleteemp' id=i.id %}" ><button type="button" class="btn btn-sm btn-outline-danger m-0" ><i class="fa fa-times"></i></button></a></td>
                         </tr>
                     </tbody>
                     {% empty %}

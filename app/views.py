@@ -502,3 +502,33 @@ def returnprocess(request,id):
         c.delete()
         return redirect('index')
 
+def deleteemp(request,id):
+    r=Employee.objects.get(id=id)
+    r.delete()
+    sweetify.success(request, title='Delete', text=f'Deleted Successfully')
+    return redirect('index')
+
+def deletecom(request,id):
+    c=Com.objects.get(id=id)
+    c.delete()
+    sweetify.success(request, title='Delete', text=f'Deleted Successfully')
+    return redirect('index')
+def deletelap(request,id):
+    l=Lap.objects.get(id=id)
+    l.delete()
+    sweetify.success(request, title='Delete', text=f'Deleted Successfully')
+    return redirect('index')
+def deleteother(request,id):
+    o=Otheracc.objects.get(id=id)
+    o.delete()
+    sweetify.success(request, title='Delete', text=f'Deleted Successfully')
+    return redirect('index')
+
+def updateprofile(request):
+    try:
+        a = Register.objects.get(email=request.session['email'])
+        u = a.user
+        pos = a.postion
+        return render(request, 'updateprof.html', {'user': u, 'pos': pos})
+    except:
+        return render(request, 'signrequestpage.html', {'user': None, 'pos': None})

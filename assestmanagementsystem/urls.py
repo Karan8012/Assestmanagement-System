@@ -32,6 +32,10 @@ urlpatterns = [
     path('login/otheracc',views.otheracc,name='otheracc'),
     path('login/otheraccedit',views.otheraccedit,name='otheraccedit'),
     path('login/viewemployee',views.viewemployee,name='viewemployee'),
+    path('login/viewemployee/deleteemp/<int:id>',views.deleteemp,name='deleteemp'),
+    path('login/viewemployee/deletecom/<int:id>',views.deletecom,name='deletecom'),
+    path('login/viewemployee/deletelap/<int:id>',views.deletelap,name='deletelap'),
+    path('login/viewemployee/deleteother/<int:id>',views.deleteother,name='deleteother'),
     path('login/addassests',views.addassests,name='addassests'),
     path('login/viewass',views.viewass,name='viewass'),
     path('login/viewass/addass/<int:id>',views.addass,name='addass'),
@@ -39,4 +43,6 @@ urlpatterns = [
     path('login/viewass/returnempother/<int:id>',views.returnempother,name='returnempother'),
     path('login/addotherass',views.addotherass,name='addotherass'),
     path('login/viewass/returnprocess/<int:id>',views.returnprocess,name='returnprocess'),
+    path('login/updateprofile',views.updateprofile,name='updateprofile')
+
 ]
