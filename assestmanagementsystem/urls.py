@@ -43,6 +43,7 @@ urlpatterns = [
     path('login/viewass/returnempother/<int:id>',views.returnempother,name='returnempother'),
     path('login/addotherass',views.addotherass,name='addotherass'),
     path('login/viewass/returnprocess/<int:id>',views.returnprocess,name='returnprocess'),
-    path('login/updateprofile',views.updateprofile,name='updateprofile')
+    path('login/updateprofile',views.updateprofile,name='updateprofile'),
+    path('login/updateprofile/actionupdate/<int:id>',views.actionupdate,name='actionupdate'),
 
 ]

@@ -81,7 +81,7 @@
                     backgroundColor: "rgba(235, 22, 22, .5)"
                 },
                 {
-                    label: "AU",
+                    label: "A",
                     data: [12, 25, 45, 55, 65, 70, 60],
                     backgroundColor: "rgba(235, 22, 22, .3)"
                 }

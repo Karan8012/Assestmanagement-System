@@ -113,3 +113,12 @@ class reass(models.Model):
     otls=models.CharField(max_length=50)
     gdt=models.DateField()
     rdt=models.DateField()
+
+class chart(models.Model):
+    assest=models.IntegerField(null=True)
+    com=models.IntegerField(null=True)
+    retcom=models.IntegerField(null=True)
+    lap=models.IntegerField(null=True)
+    retlap=models.IntegerField(null=True)
+    other=models.IntegerField(null=True)
+    retother=models.IntegerField(null=True)
