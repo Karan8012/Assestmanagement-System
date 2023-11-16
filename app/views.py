@@ -16,38 +16,16 @@ def index(request):
     lp = len(lap)
     ass=Assest.objects.all()
     asss=len(ass)
-    # recom=Returncom.objects.all()
-    # rrecom=len(recom)
-    # relap=returnlap.objects.all()
-    # rrelap=len(relap)
-    # oth=Otheracc.objects.all()
-    # ooth=len(oth)
-    # reoth=retOtheracc.objects.all()
-    # rreoth=len(reoth)
-    # m=chart(com=cl,retcom=rrecom,lap=lp,retlap=rrelap,other=ooth,retother=rreoth)
-    # m.save()
-    # asl=[]
-    # coml=[]
-    # retcoml=[]
-    # lapl=[]
-    # retlapl=[]
-    # otherl=[]
-    # retotherl=[]
-    # mo=chart.objects.all().filter()
-    # for i in mo:
-    #     asl.append(i.assest)
-    #     coml.append(i.com)
-    #     retcoml.append(i.retcom)
-    #     lapl.append(i.lap)
-    #     retlapl.append(i.retlap)
-    #     otherl.append(i.other)
-    #     retotherl.append(i.retother)
-    # 'ass': asse, 'asl': asl, 'coml': coml, 'retcoml': retcoml, 'lapl': lapl, 'retlapl': retlapl, 'otherl': otherl, 'retotherl': retotherl
+    po = reass.objects.all()
+    poo = len(po)
+    fass = asss + poo
     asl = []
     coml = []
     retcoml = []
     lapl=[]
     retlapl=[]
+    otherl=[]
+    retotherl=[]
     mo = chart.objects.all().filter()
     for i in mo:
         if i.assest != None:
@@ -70,15 +48,22 @@ def index(request):
             retlapl.append(i.retlap)
         else:
             retlapl.append(0)
-    print(lapl)
-    print(retlapl)
+        if i.other != None:
+            otherl.append(i.other)
+        else:
+            otherl.append(0)
+        if i.retother != None:
+            retotherl.append(i.retother)
+        else:
+            retotherl.append(0)
+    to=todolist.objects.all()
     if 'email' in request.session:
         a = Register.objects.get(email=request.session['email'])
         u = a.user
         pos = a.postion
-        return render(request, 'index.html', {'user': u, 'emp': p, 'pos': pos, 'com': cl, 'lap': lp,'ass':asss,'asl':asl,'coml': coml,'retcoml': retcoml,'lapl': lapl, 'retlapl': retlapl})
+        return render(request, 'index.html', {'user': u, 'emp': p, 'pos': pos, 'com': cl, 'lap': lp,'ass':fass,'asl':asl,'coml': coml,'retcoml': retcoml,'lapl': lapl, 'retlapl': retlapl,'otherl': otherl, 'retotherl': retotherl,'todo':to})
     else:
-        return render(request, 'index.html', {'user': None, 'emp': p, 'pos': None, 'com': cl, 'lap': lp,'ass':asss, 'asl':asl,'coml': coml,'retcoml': retcoml,'lapl': lapl, 'retlapl': retlapl})
+        return render(request, 'index.html', {'user': None, 'emp': p, 'pos': None, 'com': cl, 'lap': lp,'ass':asss, 'asl':asl,'coml': coml,'retcoml': retcoml,'lapl': lapl, 'retlapl': retlapl,'otherl': otherl, 'retotherl': retotherl})
 
 
 def register(request):
@@ -189,16 +174,41 @@ def comedit(request):
             for i in c:
                 o.append(i.comname)
             print(o)
+            recom=Returncom.objects.all()
+            r=[]
+            for j in recom:
+                r.append(j.comname)
             if comname not in o:
-                com = Com(comname=comname, os=os, hdd=hdd, ram=ram, cpnm=cpnm, cpsn=cpsn, monname=monname, mnsn=mnsn,
-                          prcl=prcl, grcname=grcname, gcs=gcs, kyname=kyname, msname=msname)
-                com.save()
-                cooo = Com.objects.all()
-                coe = len(cooo)
-                m = chart(com=coe)
-                m.save()
-                sweetify.success(request, title='success', text=f'{comname} Details Register Successfully', timer=2000)
-                return redirect('comcat')
+                if comname not in r:
+                    com = Com(comname=comname, os=os, hdd=hdd, ram=ram, cpnm=cpnm, cpsn=cpsn, monname=monname,
+                              mnsn=mnsn,
+                              prcl=prcl, grcname=grcname, gcs=gcs, kyname=kyname, msname=msname)
+                    com.save()
+                    asee = Assest.objects.all()
+                    asse = len(asee)
+                    po = reass.objects.all()
+                    poo = len(po)
+                    fass = asse + poo
+                    cooo = Com.objects.all()
+                    coe = len(cooo)
+                    recm = Returncom.objects.all()
+                    reco = len(recm)
+                    lppp = Lap.objects.all()
+                    cl = len(lppp)
+                    relapp = returnlap.objects.all()
+                    relaap = len(relapp)
+                    cooo = Otheracc.objects.all()
+                    cob = len(cooo)
+                    recmmm = retOtheracc.objects.all()
+                    recom = len(recmmm)
+                    m = chart(assest=fass, com=coe, retcom=reco, lap=cl, retlap=relaap, other=cob, retother=recom)
+                    m.save()
+                    sweetify.success(request, title='success', text=f'{comname} Details Register Successfully',
+                                     timer=2000)
+                    return redirect('comcat')
+                else:
+                    sweetify.error(request, title='Error', text=f'That {comname} Name has already got on employee', timer=2000)
+                    return redirect('comcat')
             else:
                 sweetify.error(request, title='Error', text=f'That { comname } Name has already exists', timer=2000)
                 return redirect('comcat')
@@ -244,17 +254,42 @@ def lapedit(request):
             o = []
             for i in c:
                 o.append(i.lapname)
+            rl=[]
+            rlp=returnlap.objects.all()
+            for j in rlp:
+                rl.append(j.lapname)
             if lapname not in o:
-                lap = Lap(lapname=lapname, los=los, lhdd=lhdd, lram=lram, lcm=lcm, lsn=lsn, prcl=prcl, grcname=grcname,
-                          gcs=gcs, canv=canv)
-                lap.save()
-                cooo = Lap.objects.all()
-                coe = len(cooo)
-                m = chart(lap=coe)
-                m.save()
-                print('s')
-                sweetify.success(request, title='success', text=f'{ lapname } Details Register Successfully', timer=2000)
-                return redirect('lapcat')
+                if lapname not in rl:
+                    lap = Lap(lapname=lapname, los=los, lhdd=lhdd, lram=lram, lcm=lcm, lsn=lsn, prcl=prcl,
+                              grcname=grcname,
+                              gcs=gcs, canv=canv)
+                    lap.save()
+                    asee = Assest.objects.all()
+                    asse = len(asee)
+                    po = reass.objects.all()
+                    poo = len(po)
+                    fass = asse + poo
+                    cooo = Com.objects.all()
+                    coe = len(cooo)
+                    recm = Returncom.objects.all()
+                    reco = len(recm)
+                    lppp = Lap.objects.all()
+                    cl = len(lppp)
+                    relapp = returnlap.objects.all()
+                    relaap = len(relapp)
+                    cooo = Otheracc.objects.all()
+                    cob = len(cooo)
+                    recmmm = retOtheracc.objects.all()
+                    recom = len(recmmm)
+                    m = chart(assest=fass, com=coe, retcom=reco, lap=cl, retlap=relaap, other=cob, retother=recom)
+                    m.save()
+                    print('s')
+                    sweetify.success(request, title='success', text=f'{lapname} Details Register Successfully',
+                                     timer=2000)
+                    return redirect('lapcat')
+                else:
+                    sweetify.error(request, title='Error', text=f'That {lapname} Name has already got on employee', timer=2000)
+                    return redirect('lapcat')
             else:
                 sweetify.error(request, title='Error', text=f'That { lapname } Name has already exists', timer=2000)
                 return redirect('lapcat')
@@ -287,41 +322,126 @@ def otheraccedit(request):
             p=[]
             for i in ok:
                 p.append(i.keyboard)
+            ork=[]
+            ortk=retOtheracc.objects.all().filter(keyboard=keyboard)
+            for i in ortk:
+                ork.append(i.keyboard)
             m=[]
             om=Otheracc.objects.all().filter(mouse=mouse)
             for i in om:
                 m.append(i.mouse)
+            orm = []
+            ortm = retOtheracc.objects.all().filter(mouse=mouse)
+            for i in ortm:
+                orm.append(i.mouse)
             o=[]
             oo=Otheracc.objects.all().filter(other=other)
             for i in oo:
-                o.append(i.keyboard)
+                o.append(i.other)
+            oro = []
+            orto = retOtheracc.objects.all().filter(other=other)
+            for i in orto:
+                oro.append(i.other)
             if keyboard:
                 if keyboard not in p:
-                    oth = Otheracc(keyboard=keyboard)
-                    oth.save()
-                    sweetify.success(request, title='success', text='Other Accessories Register Successfully',
-                                     timer=2000)
-                    return redirect('otheracc')
+                    if keyboard not in ork:
+                        oth = Otheracc(keyboard=keyboard)
+                        oth.save()
+                        asee = Assest.objects.all()
+                        asse = len(asee)
+                        po = reass.objects.all()
+                        poo = len(po)
+                        fass = asse + poo
+                        cooo = Com.objects.all()
+                        coe = len(cooo)
+                        recm = Returncom.objects.all()
+                        reco = len(recm)
+                        lppp = Lap.objects.all()
+                        cl = len(lppp)
+                        relapp = returnlap.objects.all()
+                        relaap = len(relapp)
+                        cooo = Otheracc.objects.all()
+                        cob = len(cooo)
+                        recmmm = retOtheracc.objects.all()
+                        recom = len(recmmm)
+                        m = chart(assest=fass, com=coe, retcom=reco, lap=cl, retlap=relaap, other=cob, retother=recom)
+                        m.save()
+                        sweetify.success(request, title='success', text='Other Accessories Register Successfully',
+                                         timer=2000)
+                        return redirect('otheracc')
+                    else:
+                        sweetify.error(request, title='error',
+                                       text=f'That {keyboard} has already got on employee please Given Other name')
+                        return redirect('otheracc')
                 else:
                     sweetify.error(request, title='error', text=f'That {keyboard} has already exists please Given Other name')
                     return redirect('otheracc')
             elif mouse:
                 if mouse not in m:
-                    oth = Otheracc(mouse=mouse)
-                    oth.save()
-                    sweetify.success(request, title='success', text='Other Accessories Register Successfully',
-                                     timer=2000)
-                    return redirect('otheracc')
+                    if mouse not in orm:
+                        oth = Otheracc(mouse=mouse)
+                        oth.save()
+                        asee = Assest.objects.all()
+                        asse = len(asee)
+                        po = reass.objects.all()
+                        poo = len(po)
+                        fass = asse + poo
+                        cooo = Com.objects.all()
+                        coe = len(cooo)
+                        recm = Returncom.objects.all()
+                        reco = len(recm)
+                        lppp = Lap.objects.all()
+                        cl = len(lppp)
+                        relapp = returnlap.objects.all()
+                        relaap = len(relapp)
+                        cooo = Otheracc.objects.all()
+                        cob = len(cooo)
+                        recmmm = retOtheracc.objects.all()
+                        recom = len(recmmm)
+                        m = chart(assest=fass, com=coe, retcom=reco, lap=cl, retlap=relaap, other=cob, retother=recom)
+                        m.save()
+                        sweetify.success(request, title='success', text='Other Accessories Register Successfully',
+                                         timer=2000)
+                        return redirect('otheracc')
+                    else:
+                        sweetify.error(request, title='error',
+                                       text=f'That {mouse} has already got on employee please Given Other name')
+                        return redirect('otheracc')
+
                 else:
                     sweetify.error(request, title='error', text=f'That {mouse} has already exists please Given Other name')
                     return redirect('otheracc')
             elif other:
                 if other not in o:
-                    oth = Otheracc(other=other)
-                    oth.save()
-                    sweetify.success(request, title='success', text=f'{other} Register Successfully',
-                                     timer=2000)
-                    return redirect('otheracc')
+                    if other not in oro:
+                        oth = Otheracc(other=other)
+                        oth.save()
+                        asee = Assest.objects.all()
+                        asse = len(asee)
+                        po = reass.objects.all()
+                        poo = len(po)
+                        fass = asse + poo
+                        cooo = Com.objects.all()
+                        coe = len(cooo)
+                        recm = Returncom.objects.all()
+                        reco = len(recm)
+                        lppp = Lap.objects.all()
+                        cl = len(lppp)
+                        relapp = returnlap.objects.all()
+                        relaap = len(relapp)
+                        cooo = Otheracc.objects.all()
+                        cob = len(cooo)
+                        recmmm = retOtheracc.objects.all()
+                        recom = len(recmmm)
+                        m = chart(assest=fass, com=coe, retcom=reco, lap=cl, retlap=relaap, other=cob, retother=recom)
+                        m.save()
+                        sweetify.success(request, title='success', text=f'{other} Register Successfully',
+                                         timer=2000)
+                        return redirect('otheracc')
+                    else:
+                        sweetify.error(request, title='error',
+                                       text=f'That {other} has already got on employee please Given Other name')
+                        return redirect('otheracc')
                 else:
                     sweetify.error(request, title='error', text=f'That {other} has already exists please Given Other name')
                     return redirect('otheracc')
@@ -381,6 +501,25 @@ def addotherass(request):
                                 break
                         aast=reass(empls=empls,otls=otls,gdt=gdt,rdt=rdt)
                         aast.save()
+                        asee = Assest.objects.all()
+                        asse = len(asee)
+                        po = reass.objects.all()
+                        poo = len(po)
+                        fass = asse + poo
+                        cooo = Com.objects.all()
+                        coe = len(cooo)
+                        recm = Returncom.objects.all()
+                        reco = len(recm)
+                        lppp = Lap.objects.all()
+                        cl = len(lppp)
+                        relapp = returnlap.objects.all()
+                        relaap = len(relapp)
+                        cooo = Otheracc.objects.all()
+                        cob = len(cooo)
+                        recmmm = retOtheracc.objects.all()
+                        recom = len(recmmm)
+                        m = chart(assest=fass, com=coe, retcom=reco, lap=cl, retlap=relaap, other=cob, retother=recom)
+                        m.save()
                         sweetify.success(request, title='success', text='add Other accessories Successfully', timer=2000)
                         return redirect('index')
                 else:
@@ -448,17 +587,24 @@ def addassests(request):
                                 lpp.delete()
                     aast=Assest(empls=empls,systy=systy,gdt=gdt,rdt=rdt)
                     aast.save()
-                    assee = Assest.objects.all()
-                    asse = len(assee)
-                    recommm=Returncom.objects.all()
-                    recoom=len(recommm)
-                    comm=Com.objects.all()
-                    coom=len(comm)
-                    relapp=returnlap.objects.all()
-                    relaap=len(relapp)
-                    lapp=Lap.objects.all()
-                    laap=len(lapp)
-                    m = chart(assest=asse,com=coom,retcom=recoom,lap=laap,retlap=relaap)
+                    asee = Assest.objects.all()
+                    asse = len(asee)
+                    po = reass.objects.all()
+                    poo = len(po)
+                    fass = asse + poo
+                    cooo = Com.objects.all()
+                    coe = len(cooo)
+                    recm = Returncom.objects.all()
+                    reco = len(recm)
+                    lppp = Lap.objects.all()
+                    cl = len(lppp)
+                    relapp = returnlap.objects.all()
+                    relaap = len(relapp)
+                    cooo = Otheracc.objects.all()
+                    cob = len(cooo)
+                    recmmm = retOtheracc.objects.all()
+                    recom = len(recmmm)
+                    m = chart(assest=fass, com=coe, retcom=reco, lap=cl, retlap=relaap, other=cob, retother=recom)
                     m.save()
                     sweetify.success(request, title='success', text='Assest Register Successfully', timer=2000)
                     return redirect('viewass')
@@ -523,6 +669,25 @@ def addass(request,id):
                                 break
                         aast=reass(empls=empls,otls=otls,gdt=gdt,rdt=rdt)
                         aast.save()
+                        asee = Assest.objects.all()
+                        asse = len(asee)
+                        po = reass.objects.all()
+                        poo = len(po)
+                        fass = asse + poo
+                        cooo = Com.objects.all()
+                        coe = len(cooo)
+                        recm = Returncom.objects.all()
+                        reco = len(recm)
+                        lppp = Lap.objects.all()
+                        cl = len(lppp)
+                        relapp = returnlap.objects.all()
+                        relaap = len(relapp)
+                        cooo = Otheracc.objects.all()
+                        cob = len(cooo)
+                        recmmm = retOtheracc.objects.all()
+                        recom = len(recmmm)
+                        m = chart(assest=fass, com=coe, retcom=reco, lap=cl, retlap=relaap, other=cob, retother=recom)
+                        m.save()
                         sweetify.success(request, title='success', text='add extra accessories Successfully', timer=2000)
                         return redirect('index')
                 else:
@@ -552,24 +717,53 @@ def viewfulldetails(request,id):
 
 
 def returnempother(request,id):
+    print(id)
     c=reass.objects.get(id=id)
-    oth = retOtheracc.objects.all().filter(empname=c.empls)
-    for i in oth:
-        if i.keyboard:
-            k=Otheracc(keyboard=i.keyboard)
+    # print(c)
+    # print(c.empls,c.otls)
+    reto=retOtheracc.objects.filter(empname=c.empls)
+    # print(reto)
+    for i in reto:
+        if i.keyboard == c.otls:
+            k = Otheracc(keyboard=i.keyboard)
             k.save()
+            reoter = retOtheracc.objects.get(keyboard=i.keyboard)
+            reoter.delete()
+            c.delete()
             sweetify.success(request, title='Return', text=f'{i.keyboard} Accessories has Return Successfully')
-        elif i.mouse:
-            m=Otheracc(mouse=i.mouse)
+        elif i.mouse == c.otls:
+            m = Otheracc(mouse=i.mouse)
             m.save()
+            reoter = retOtheracc.objects.get(mouse=i.mouse)
+            reoter.delete()
+            c.delete()
             sweetify.success(request, title='Return', text=f'{i.mouse} Accessories has Return Successfully')
-        elif i.other:
-            o=Otheracc(other=i.other)
+        elif i.other == c.otls:
+            o = Otheracc(other=i.other)
             o.save()
+            reoter = retOtheracc.objects.get(other=i.other)
+            reoter.delete()
+            c.delete()
             sweetify.success(request, title='Return', text=f'{i.other} Accessories has Return Successfully')
-        ot=retOtheracc.objects.get(empname=c.empls)
-        ot.delete()
-        c.delete()
+    asee = Assest.objects.all()
+    asse = len(asee)
+    po = reass.objects.all()
+    poo = len(po)
+    fass = asse + poo
+    cooo = Com.objects.all()
+    coe = len(cooo)
+    recm = Returncom.objects.all()
+    reco = len(recm)
+    lppp = Lap.objects.all()
+    cl = len(lppp)
+    relapp = returnlap.objects.all()
+    relaap = len(relapp)
+    cooo = Otheracc.objects.all()
+    cob = len(cooo)
+    recmmm = retOtheracc.objects.all()
+    recom = len(recmmm)
+    m = chart(assest=fass,com=coe,retcom=reco,lap=cl,retlap=relaap,other=cob, retother=recom)
+    m.save()
     return redirect('index')
 
 def returnprocess(request,id):
@@ -586,13 +780,24 @@ def returnprocess(request,id):
         d = Returncom.objects.get(empname=c.empls)
         d.delete()
         c.delete()
-        assee = Assest.objects.all()
-        asse = len(assee)
+        asee = Assest.objects.all()
+        asse = len(asee)
+        po = reass.objects.all()
+        poo = len(po)
+        fass = asse + poo
         cooo = Com.objects.all()
         coe = len(cooo)
-        recommm=Returncom.objects.all()
-        recoom=len(recommm)
-        m = chart(assest=asse,com=coe,retcom=recoom)
+        recm = Returncom.objects.all()
+        reco = len(recm)
+        lppp = Lap.objects.all()
+        cl = len(lppp)
+        relapp = returnlap.objects.all()
+        relaap = len(relapp)
+        cooo = Otheracc.objects.all()
+        cob = len(cooo)
+        recmmm = retOtheracc.objects.all()
+        recom = len(recmmm)
+        m = chart(assest=fass, com=coe, retcom=reco, lap=cl, retlap=relaap, other=cob, retother=recom)
         m.save()
         return redirect('index')
     elif lap:
@@ -605,13 +810,24 @@ def returnprocess(request,id):
         d = returnlap.objects.get(empname=c.empls)
         d.delete()
         c.delete()
-        assee = Assest.objects.all()
-        asse = len(assee)
+        asee = Assest.objects.all()
+        asse = len(asee)
+        po = reass.objects.all()
+        poo = len(po)
+        fass = asse + poo
+        cooo = Com.objects.all()
+        coe = len(cooo)
+        recm = Returncom.objects.all()
+        reco = len(recm)
         lppp = Lap.objects.all()
-        coe = len(lppp)
-        relapp=returnlap.objects.all()
-        relaap=len(relapp)
-        m = chart(assest=asse, lap=coe,retlap=relaap)
+        cl = len(lppp)
+        relapp = returnlap.objects.all()
+        relaap = len(relapp)
+        cooo = Otheracc.objects.all()
+        cob = len(cooo)
+        recmmm = retOtheracc.objects.all()
+        recom = len(recmmm)
+        m = chart(assest=fass, com=coe, retcom=reco, lap=cl, retlap=relaap, other=cob, retother=recom)
         m.save()
         return redirect('index')
 
@@ -660,4 +876,31 @@ def actionupdate(request,id):
         a.staffid=staffid
         a.save()
         sweetify.success(request, title='Update', text=f'Updated Successfully')
+    return redirect('index')
+
+def todolis(request):
+    if 'email' in request.session:
+        if request.method == 'POST':
+            task = request.POST.get('task')
+            print(task)
+            tl=[]
+            to=todolist.objects.all()
+            for i in to:
+                tl.append(i.todo)
+            if task not in tl:
+                t = todolist(todo=task)
+                t.save()
+                sweetify.success(request, title='Todo', text=f'Todolist addedd Successfully')
+                return redirect('index')
+            else:
+                sweetify.error(request, title='Todo Error', text=f'Todolist Already Exists')
+                return redirect('index')
+    else:
+        sweetify.error(request,title='Sign request',text='Please Login The Page')
+        return redirect('index')
+
+def tododel(request,id):
+    t=todolist.objects.get(id=id)
+    t.delete()
+    sweetify.success(request, title='Delete', text=f'Deleted Successfully')
     return redirect('index')

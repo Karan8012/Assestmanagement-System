@@ -205,7 +205,7 @@
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-secondary text-center rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Computer Analysis</h6>
+                                <h6 class="mb-0">Computer Stock Analysis</h6>
                             </div>
                             <canvas id="salse-revenue"></canvas>
                         </div>
@@ -213,7 +213,7 @@
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-secondary text-center rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Laptop Analysis</h6>
+                                <h6 class="mb-0">Laptop Stock Analysis</h6>
                             </div>
                             <canvas id="sales-revenue"></canvas>
                         </div>
@@ -221,7 +221,7 @@
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-secondary text-center rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Other Accessories Analysis</h6>
+                                <h6 class="mb-0">Other Stock Accessories Analysis</h6>
                             </div>
                             <canvas id="sal-revenue"></canvas>
                         </div>
@@ -241,56 +241,18 @@
                     <div class="col-sm-12 col-md-6 col-xl-4">
                         <div class="h-100 bg-secondary rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-2">
-                                <h6 class="mb-0">Messages</h6>
-                                <a href="">Show All</a>
+                                <h6 class="mb-0">MAP</h6>
                             </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center pt-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
+                            <iframe class="position-relative rounded w-100 h-100"
+                            src="https://www.google.com/maps/embed?pb=@10.8153363,75.6472158,7z/data=!4m6!3m5!1s0x3b00c582b1189633:0x559475cc463361f0!8m2!3d11.1271225!4d78.6568942!16zL20vMDdjOTg?entry=ttu"
+                            frameborder="0" allowfullscreen="" aria-hidden="false"
+                            tabindex="0" style="filter: grayscale(100%) invert(92%) contrast(83%); border: 0;"></iframe>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-xl-4">
                         <div class="h-100 bg-secondary rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <h6 class="mb-0">Calender</h6>
-                                <a href="">Show All</a>
                             </div>
                             <div id="calender"></div>
                         </div>
@@ -299,55 +261,29 @@
                         <div class="h-100 bg-secondary rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <h6 class="mb-0">To Do List</h6>
-                                <a href="">Show All</a>
                             </div>
+                            <form method="post" action="{% url 'todolist' %}">
+                                {% csrf_token %}
                             <div class="d-flex mb-2">
-                                <input class="form-control bg-dark border-0" type="text" placeholder="Enter task">
-                                <button type="button" class="btn btn-primary ms-2">Add</button>
+                                <input class="form-control bg-dark border-0" type="text" placeholder="Enter task" name="task">
+                                <button type="submit" class="btn btn-primary ms-2">Add</button>
                             </div>
+                            </form>
                             <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
                                 <div class="w-100 ms-3">
+                                {% if todo  %}
+                                    {% for i in todo %}
                                     <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
+                                        <span>{{ i.todo }}</span>
+                                        <button class="btn btn-sm"><a href="{% url 'tododel' id=i.id %}"><i class="fa fa-times"></i></a></button>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="d-flex w-100 align-items-center justify-content-between">
+                                        <span>No Data</span>
                                         <button class="btn btn-sm"><i class="fa fa-times"></i></button>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox" checked>
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span><del>Short task goes here...</del></span>
-                                        <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center pt-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
+                                {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -362,12 +298,11 @@
                 <div class="bg-secondary rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved. 
+                            &copy; <a href="#">AMS</a>, All Right Reserved.
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end">
                             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                            <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                            Designed By <a href="https://htmlcodex.com">DJANGO</a>
                         </div>
                     </div>
                 </div>
@@ -463,16 +398,16 @@
     var myChart2 = new Chart(ctx2, {
         type: "line",
         data: {
-            labels: {{ lapl }},
+            labels: {{ otherl }},
             datasets: [{
-                    label: "Laptop",
-                    data: {{ lapl }},
+                    label: "Other Accessories",
+                    data: {{ otherl }},
                     backgroundColor: "rgba(235, 22, 22, .7)",
                     fill: true
                 },
                 {
-                    label: "Return Laptop",
-                    data: {{ retlapl }},
+                    label: "Return Other Accessories",
+                    data: {{ retotherl }},
                     backgroundColor: "white",
                     fill: true
                 }

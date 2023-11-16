@@ -122,3 +122,6 @@ class chart(models.Model):
     retlap=models.IntegerField(null=True)
     other=models.IntegerField(null=True)
     retother=models.IntegerField(null=True)
+
+class todolist(models.Model):
+    todo=models.TextField()

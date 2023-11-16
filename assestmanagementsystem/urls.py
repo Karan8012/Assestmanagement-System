@@ -45,5 +45,6 @@ urlpatterns = [
     path('login/viewass/returnprocess/<int:id>',views.returnprocess,name='returnprocess'),
     path('login/updateprofile',views.updateprofile,name='updateprofile'),
     path('login/updateprofile/actionupdate/<int:id>',views.actionupdate,name='actionupdate'),
-
+    path('login/todolist',views.todolis,name='todolist'),
+    path('login/todolist/delete/<int:id>',views.tododel,name='tododel')
 ]
